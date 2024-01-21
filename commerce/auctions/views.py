@@ -273,6 +273,10 @@ def register(request):
         try:
             user = User.objects.create_user(username, email, password)
             user.save()
+
+            # Create an empty watchlist for the new user
+            watchlist = WatchList.objects.create(user=user)
+            watchlist.save()
         except IntegrityError:
             return render(request, "auctions/register.html", {
                 "message": "Username already taken."
